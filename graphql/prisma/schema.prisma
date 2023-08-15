@@ -24,107 +24,132 @@ model User {
   email              String               @unique
   iconUrl            String?
   role               Role                 @default(USER)
-  iv                 String?
+  houses             House[]              @relation("UserHouses")
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  chatRoomMessages   ChatRoomMessage[]
-  userChatRooms      UserChatRoom[]
-  UserVertexChatRoom UserVertexChatRoom[]
-
-  @@index([username])
+  userSkills         UserSkill[]
 }
 
-model ChatRoom {
-  id               Int               @id @default(autoincrement())
+// 家（不動産情報）
+model House {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  address   String?
+  userId    Int?
+  user      User?     @relation("UserHouses", fields: [userId], references: [id])
+  fixParts  FixPart[] @relation("HouseFixParts")
+  partners  Partner[] @relation("HousePartners")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// 修繕部位
+model FixPart {
+  id               Int      @id @default(autoincrement())
+  estimateFixTime  String?
+  houseId          Int?
+  house            House?   @relation("HouseFixParts", fields: [houseId], references: [id])
+  movies           Movie[]  @relation("FixPartMovies")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  roomTypeFixParts RoomTypeFixPart[]
+}
+
+// 修繕動画
+model Movie {
+  id            Int      @id @default(autoincrement())
+  estimatedTime String?
+  learningTime  String?
+  fixPartId     Int?
+  fixPart       FixPart? @relation("FixPartMovies", fields: [fixPartId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  movieSkills   MovieSkill[]
+  movieTools    MovieTool[]
+}
+
+// 修繕業者
+model Partner {
+  id               Int      @id @default(autoincrement())
+  companyName      String?
+  contactPerson    String?
+  companyAddress   String?
+  companyTel       String?
+  acceptableAreas  String[]
+  houseId          Int?
+  house            House?   @relation("HousePartners", fields: [houseId], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// スキル
+model Skill {
+  id          Int      @id @default(autoincrement())
+  name        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userSkills  UserSkill[]
+  movieSkills MovieSkill[]
+}
+
+// 部屋のタイプ
+model RoomType {
+  id               Int      @id @default(autoincrement())
   name             String?
-  title            String?
-  model            String            @default("gpt4")
-  maxTokens        Int               @default(500)
-  temperature      Int               @default(0)
-  stream           Boolean           @default(false)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  chatRoomMessages ChatRoomMessage[]
-  userChatRooms    UserChatRoom[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  roomTypeFixParts RoomTypeFixPart[]
 }
 
-model ChatRoomMessage {
+// 道具
+model Tool {
   id         Int      @id @default(autoincrement())
-  role       String
-  content    String
-  userId     Int
-  chatRoomId Int
+  name       String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  User       User     @relation(fields: [userId], references: [id])
-  ChatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  movieTools MovieTool[]
 }
 
-model UserChatRoom {
-  userId     Int
-  chatRoomId Int
+model UserSkill {
+  userId    Int
+  skillId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+  Skill     Skill    @relation(fields: [skillId], references: [id])
+
+  @@id([userId, skillId])
+}
+
+model RoomTypeFixPart {
+  roomTypeId Int
+  fixPartId  Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  User       User     @relation(fields: [userId], references: [id])
-  ChatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  RoomType   RoomType @relation(fields: [roomTypeId], references: [id])
+  FixPart    FixPart  @relation(fields: [fixPartId], references: [id])
 
-  @@id([userId, chatRoomId])
+  @@id([roomTypeId, fixPartId])
 }
 
-model VertexChatRoom {
-  id                    Int                     @id @default(autoincrement())
-  name                  String?
-  title                 String?
-  model                 String                  @default("chat-bison@001")
-  maxTokens             Int                     @default(256)
-  temperature           Float                   @default(0.2)
-  topP                  Float                   @default(0.95)
-  topK                  Int                     @default(40)
-  context               String                  @default("You are a developer who is knowledgeable about the Skeet framework, a framework for building web applications.")
-  isShered              Boolean                 @default(false)
-  createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @updatedAt
-  VertexChatRoomExample VertexChatRoomExample[]
-  VertexChatRoomMessage VertexChatRoomMessage[]
-  UserVertexChatRoom    UserVertexChatRoom[]
+model MovieSkill {
+  movieId   Int
+  skillId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Movie     Movie    @relation(fields: [movieId], references: [id])
+  Skill     Skill    @relation(fields: [skillId], references: [id])
 
-  @@index([name])
-  @@index([title])
+  @@id([movieId, skillId])
 }
 
-model VertexChatRoomExample {
-  id               Int            @id @default(autoincrement())
-  vertexChatRoomId Int
-  input            String         @default("What is the Skeet framework?")
-  output           String         @default("The Skeet framework is a Typescript framework for building web applications using Typescript and React.")
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
+model MovieTool {
+  movieId   Int
+  toolId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Movie     Movie    @relation(fields: [movieId], references: [id])
+  Tool      Tool     @relation(fields: [toolId], references: [id])
 
-  @@unique([vertexChatRoomId, input, output])
-  @@index([input])
-  @@index([output])
-}
-
-model UserVertexChatRoom {
-  userId           Int
-  vertexChatRoomId Int
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  User             User           @relation(fields: [userId], references: [id])
-  VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
-
-  @@id([userId, vertexChatRoomId])
-}
-
-model VertexChatRoomMessage {
-  id               Int            @id @default(autoincrement())
-  role             String
-  content          String
-  vertexChatRoomId Int
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  VertexChatRoom   VertexChatRoom @relation(fields: [vertexChatRoomId], references: [id])
-
-  @@index([content])
+  @@id([movieId, toolId])
 }
