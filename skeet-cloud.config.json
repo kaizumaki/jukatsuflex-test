@@ -1,0 +1,80 @@
+{
+  "app": {
+    "name": "jukatsuflex-test",
+    "projectId": "jukatsuflex-test",
+    "fbProjectId": "jukatsuflex-test",
+    "template": "Next.js (React) - GraphQL",
+    "region": "europe-west6",
+    "appDomain": "app.your-app-url.com",
+    "nsDomain": "your-nameserver.com",
+    "lbDomain": "loadbalancer.your-app-url.com",
+    "functionsDomain": "functions.your-app-url.com",
+    "hasLoadBalancer": false
+  },
+  "cloudRun": {
+  "name": "skeet-jukatsuflex-test-graphql",
+  "url": "",
+  "cpu": 1,
+  "maxConcurrency": 80,
+  "maxInstances": 100,
+  "minInstances": 0,
+  "memory": "4Gi"
+},
+  "db": {
+  "databaseVersion": "POSTGRES_15",
+  "cpu": 1,
+  "memory": "3840MiB",
+  "storageSize": 10,
+  "whiteList": ""
+},
+  "taskQueues": [
+  {
+    "queueName": "createUser",
+    "location": "asia-northeast1",
+    "maxAttempts": 3,
+    "maxConcurrent": 1,
+    "maxRate": 1,
+    "maxInterval": "10s",
+    "minInterval": "1s"
+  },
+  {
+    "queueName": "createChatRoomMessage",
+    "location": "asia-northeast1",
+    "maxAttempts": 3,
+    "maxConcurrent": 1,
+    "maxRate": 1,
+    "maxInterval": "10s",
+    "minInterval": "1s"
+  }
+],
+  "cloudArmor": [
+    {
+      "securityPolicyName": "skeet-jukatsuflex-test-armor",
+      "rules": [
+        {
+          "priority": "10",
+          "description": "Allow Your Home IP addresses",
+          "options": {
+            "src-ip-ranges": "111.238.101.193",
+            "action": "allow"
+          }
+        },
+        {
+          "priority": "300",
+          "description": "Defense from NodeJS attack",
+          "options": {
+            "action": "deny-403",
+            "expression": "evaluatePreconfiguredExpr('nodejs-v33-stable')"
+          }
+        },
+        {
+          "priority": "2147483647",
+          "description": "Deny All IP addresses",
+          "options": {
+            "action": "deny-403"
+          }
+        }
+      ]
+    }
+  ]
+}  

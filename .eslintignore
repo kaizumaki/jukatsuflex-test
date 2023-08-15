@@ -1,0 +1,10 @@
+
+out
+dist
+build
+node_modules
+web-build
+.next
+src/__generated__
+src/schema.graphql
+  
