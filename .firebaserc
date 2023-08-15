@@ -1,5 +1,15 @@
 {
-    "projects": {
-      "default": "jukatsuflex-test"
+  "projects": {
+    "default": "jukatsuflex-test"
+  },
+  "targets": {
+    "jukatsuflex-test": {
+      "hosting": {
+        "jukatsuflex-test": [
+          "jukatsuflex-test"
+        ]
+      }
     }
-  }
+  },
+  "etags": {}
+}
