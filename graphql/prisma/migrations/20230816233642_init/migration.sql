@@ -1,66 +1,19 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'MASTER');
 
-  - You are about to drop the column `iv` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the `ChatRoom` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `ChatRoomMessage` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `UserChatRoom` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `UserVertexChatRoom` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `VertexChatRoom` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `VertexChatRoomExample` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `VertexChatRoomMessage` table. If the table is not empty, all the data it contains will be lost.
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "uid" TEXT NOT NULL,
+    "username" TEXT,
+    "email" TEXT NOT NULL,
+    "iconUrl" TEXT,
+    "role" "Role" NOT NULL DEFAULT 'USER',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
-*/
--- DropForeignKey
-ALTER TABLE "ChatRoomMessage" DROP CONSTRAINT "ChatRoomMessage_chatRoomId_fkey";
-
--- DropForeignKey
-ALTER TABLE "ChatRoomMessage" DROP CONSTRAINT "ChatRoomMessage_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "UserChatRoom" DROP CONSTRAINT "UserChatRoom_chatRoomId_fkey";
-
--- DropForeignKey
-ALTER TABLE "UserChatRoom" DROP CONSTRAINT "UserChatRoom_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "UserVertexChatRoom" DROP CONSTRAINT "UserVertexChatRoom_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "UserVertexChatRoom" DROP CONSTRAINT "UserVertexChatRoom_vertexChatRoomId_fkey";
-
--- DropForeignKey
-ALTER TABLE "VertexChatRoomExample" DROP CONSTRAINT "VertexChatRoomExample_vertexChatRoomId_fkey";
-
--- DropForeignKey
-ALTER TABLE "VertexChatRoomMessage" DROP CONSTRAINT "VertexChatRoomMessage_vertexChatRoomId_fkey";
-
--- DropIndex
-DROP INDEX "User_username_idx";
-
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "iv";
-
--- DropTable
-DROP TABLE "ChatRoom";
-
--- DropTable
-DROP TABLE "ChatRoomMessage";
-
--- DropTable
-DROP TABLE "UserChatRoom";
-
--- DropTable
-DROP TABLE "UserVertexChatRoom";
-
--- DropTable
-DROP TABLE "VertexChatRoom";
-
--- DropTable
-DROP TABLE "VertexChatRoomExample";
-
--- DropTable
-DROP TABLE "VertexChatRoomMessage";
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "House" (
@@ -181,6 +134,12 @@ CREATE TABLE "MovieTool" (
 
     CONSTRAINT "MovieTool_pkey" PRIMARY KEY ("movieId","toolId")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_uid_key" ON "User"("uid");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "House" ADD CONSTRAINT "House_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

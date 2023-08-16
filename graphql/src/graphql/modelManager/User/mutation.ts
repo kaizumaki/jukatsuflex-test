@@ -1,11 +1,10 @@
-import { Prisma } from '@prisma/client'
-import { generateIv } from '@skeet-framework/utils'
+import { extendType,  stringArg, intArg, floatArg, BooleanArg } from 'nexus'
 import { toPrismaId } from '@/lib/toPrismaId'
-import { objectType, stringArg } from 'nexus'
 import { User } from 'nexus-prisma'
+import { GraphQLError } from 'graphql'
 
-export const UserMutation = objectType({
-  name: 'Mutation',
+export const UserMutation = extendType({
+  type: 'Mutation',
   definition(t) {
     t.field('createUser', {
       type: User.$name,
@@ -14,24 +13,16 @@ export const UserMutation = objectType({
         username: stringArg(),
         email: stringArg(),
         iconUrl: stringArg(),
+        role: stringArg(),
       },
       async resolve(_, args, ctx) {
         try {
-          if (!args.uid || !args.email) throw new Error(`no uid or email`)
-          const { uid, username, email, iconUrl } = args
-          const userParams: Prisma.UserCreateInput = {
-            uid: uid,
-            username,
-            email: email,
-            iconUrl,
-            iv: generateIv(),
-          }
           return await ctx.prisma.user.create({
-            data: userParams,
+            data: args,
           })
         } catch (error) {
           console.log(error)
-          throw new Error(`error: ${error}`)
+          throw new GraphQLError(`error: ${error}`)
         }
       },
     })
@@ -39,26 +30,23 @@ export const UserMutation = objectType({
       type: User.$name,
       args: {
         id: stringArg(),
-        uid: stringArg(),
-        username: stringArg(),
-        email: stringArg(),
-        iconUrl: stringArg(),
       },
-      async resolve(_, { id, username, iconUrl }, ctx) {
+      async resolve(_, args, ctx) {
+        if (!args.id) throw new GraphQLError('id is required')
+
+        const id = toPrismaId(args.id)
+        const data = JSON.parse(JSON.stringify(args))
+        delete data.id
         try {
-          if (!id) throw new Error(`no id`)
           return await ctx.prisma.user.update({
             where: {
-              id: toPrismaId(id),
+              id
             },
-            data: {
-              username,
-              iconUrl,
-            },
+            data
           })
         } catch (error) {
           console.log(error)
-          throw new Error(`error: ${error}`)
+          throw new GraphQLError(`error: ${error}`)
         }
       },
     })
@@ -69,14 +57,15 @@ export const UserMutation = objectType({
       },
       async resolve(_, { id }, ctx) {
         try {
-          if (!id) throw new Error(`no id`)
+          if (!id) throw new GraphQLError('id is required')
+
           return await ctx.prisma.user.delete({
             where: {
               id: toPrismaId(id),
             },
           })
         } catch (error) {
-          throw new Error(`error: ${error}`)
+          throw new GraphQLError(`error: ${error}`)
         }
       },
     })
