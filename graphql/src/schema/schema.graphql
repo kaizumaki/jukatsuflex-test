@@ -2,76 +2,133 @@
 ### Do not make changes to this file directly
 
 
-type ChatRoom {
-  chatRoomMessages: [ChatRoomMessage!]!
-  createdAt: DateTime!
-  id: ID
-  maxTokens: Int!
-  model: String!
-  name: String
-  stream: Boolean!
-  temperature: Int!
-  title: String
-  updatedAt: DateTime!
-  userChatRooms: [UserChatRoom!]!
-}
-
-type ChatRoomEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: ChatRoom
-}
-
-type ChatRoomMessage {
-  chatRoomId: ID
-  content: String!
-  createdAt: DateTime!
-  id: ID
-  role: String!
-  updatedAt: DateTime!
-  userId: ID
-}
-
-type ChatRoomMessageEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: ChatRoomMessage
-}
-
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
+type FixPart {
+  createdAt: DateTime!
+  estimateFixTime: String
+  houseId: Int
+  id: ID
+  roomTypeFixParts: [RoomTypeFixPart!]!
+  updatedAt: DateTime!
+}
+
+type FixPartEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: FixPart
+}
+
+type House {
+  address: String
+  createdAt: DateTime!
+  id: ID
+  name: String
+  updatedAt: DateTime!
+  userId: Int
+}
+
+type HouseEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: House
+}
+
+type Movie {
+  createdAt: DateTime!
+  estimatedTime: String
+  fixPartId: Int
+  id: ID
+  learningTime: String
+  movieSkills: [MovieSkill!]!
+  movieTools: [MovieTool!]!
+  updatedAt: DateTime!
+}
+
+type MovieEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Movie
+}
+
+type MovieSkill {
+  createdAt: DateTime!
+  id: ID
+  movieId: Int!
+  skillId: Int!
+  updatedAt: DateTime!
+}
+
+type MovieSkillEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: MovieSkill
+}
+
+type MovieTool {
+  createdAt: DateTime!
+  id: ID
+  movieId: Int!
+  toolId: Int!
+  updatedAt: DateTime!
+}
+
+type MovieToolEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: MovieTool
+}
+
 type Mutation {
-  createChatRoom(maxTokens: Int, model: String, name: String, stream: Boolean, systemContent: String, temperature: Int, title: String): ChatRoom
-  createChatRoomMessage(chatRoomId: String, content: String, role: String): ChatRoomMessage
-  createUser(email: String, iconUrl: String, uid: String, username: String): User
-  createUserChatRoom(chatRoomId: Int, userId: Int): UserChatRoom
-  createUserVertexChatRoom(userId: Int, vertexChatRoomId: Int): UserVertexChatRoom
-  createVertexChatRoom(context: String, isShered: Boolean, maxTokens: Int, model: String, name: String, temperature: Float, title: String, topK: Int, topP: Float): VertexChatRoom
-  createVertexChatRoomExample(input: String, output: String, vertexChatRoomId: String): VertexChatRoomExample
-  createVertexChatRoomMessage(content: String, role: String, vertexChatRoomId: String): VertexChatRoomMessage
-  deleteChatRoom(id: String): ChatRoom
-  deleteChatRoomMessage(id: String): ChatRoomMessage
+  createFixPart(estimateFixTime: String, houseId: Int): FixPart
+  createHouse(address: String, name: String, userId: Int): House
+  createMovie(estimatedTime: String, fixPartId: Int, learningTime: String): Movie
+  createMovieSkill(movieId: Int, skillId: Int): MovieSkill
+  createMovieTool(movieId: Int, toolId: Int): MovieTool
+  createPartner(companyAddress: String, companyName: String, companyTel: String, contactPerson: String, houseId: Int): Partner
+  createRoomType(name: String): RoomType
+  createRoomTypeFixPart(fixPartId: Int, roomTypeId: Int): RoomTypeFixPart
+  createSkill(name: String): Skill
+  createTool(name: String): Tool
+  createUser(email: String, iconUrl: String, role: String, uid: String, username: String): User
+  createUserSkill(skillId: Int, userId: Int): UserSkill
+  deleteFixPart(id: String): FixPart
+  deleteHouse(id: String): House
+  deleteMovie(id: String): Movie
+  deleteMovieSkill(id: String): MovieSkill
+  deleteMovieTool(id: String): MovieTool
+  deletePartner(id: String): Partner
+  deleteRoomType(id: String): RoomType
+  deleteRoomTypeFixPart(id: String): RoomTypeFixPart
+  deleteSkill(id: String): Skill
+  deleteTool(id: String): Tool
   deleteUser(id: String): User
-  deleteUserChatRoom(id: String): UserChatRoom
-  deleteUserVertexChatRoom(id: String): UserVertexChatRoom
-  deleteVertexChatRoom(id: String): VertexChatRoom
-  deleteVertexChatRoomExample(id: String): VertexChatRoomExample
-  deleteVertexChatRoomMessage(id: String): VertexChatRoomMessage
-  updateChatRoom(id: String, model: String, name: String, stream: Boolean, title: String): ChatRoom
-  updateChatRoomMessage(chatRoomId: Int, content: String, id: String, userId: Int): ChatRoomMessage
-  updateUser(email: String, iconUrl: String, id: String, uid: String, username: String): User
-  updateUserChatRoom(chatRoomId: Int, id: String): UserChatRoom
-  updateUserVertexChatRoom(id: String): UserVertexChatRoom
-  updateVertexChatRoom(id: String, title: String): VertexChatRoom
-  updateVertexChatRoomExample(id: String): VertexChatRoomExample
-  updateVertexChatRoomMessage(id: String): VertexChatRoomMessage
+  deleteUserSkill(id: String): UserSkill
+  updateFixPart(id: String): FixPart
+  updateHouse(id: String): House
+  updateMovie(id: String): Movie
+  updateMovieSkill(id: String): MovieSkill
+  updateMovieTool(id: String): MovieTool
+  updatePartner(id: String): Partner
+  updateRoomType(id: String): RoomType
+  updateRoomTypeFixPart(id: String): RoomTypeFixPart
+  updateSkill(id: String): Skill
+  updateTool(id: String): Tool
+  updateUser(id: String): User
+  updateUserSkill(id: String): UserSkill
 }
 
 """An object with a global ID"""
@@ -105,8 +162,28 @@ type PageInfo {
   startCursor: String
 }
 
+type Partner {
+  acceptableAreas: [String!]!
+  companyAddress: String
+  companyName: String
+  companyTel: String
+  contactPerson: String
+  createdAt: DateTime!
+  houseId: Int
+  id: ID
+  updatedAt: DateTime!
+}
+
+type PartnerEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Partner
+}
+
 type Query {
-  chatRoomConnection(
+  fixPartConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 
@@ -118,30 +195,72 @@ type Query {
 
     """Returns the last n elements from the list."""
     last: Int
-  ): QueryChatRoomConnection_Connection
-  chatRoomMessageConnection(
+  ): QueryFixPartConnection_Connection
+  getFixPart(id: String!): FixPart
+  getHouse(id: String!): House
+  getMovie(id: String!): Movie
+  getMovieSkill(id: String!): MovieSkill
+  getMovieTool(id: String!): MovieTool
+  getPartner(id: String!): Partner
+  getRoomType(id: String!): RoomType
+  getRoomTypeFixPart(id: String!): RoomTypeFixPart
+  getSkill(id: String!): Skill
+  getTool(id: String!): Tool
+  getUser(id: String!): User
+  getUserSkill(id: String!): UserSkill
+  houseConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 
     """Returns the elements in the list that come before the specified cursor"""
     before: String
-    chatRoomId: String
 
     """Returns the first n elements from the list."""
     first: Int
 
     """Returns the last n elements from the list."""
     last: Int
-  ): QueryChatRoomMessageConnection_Connection
-  getChatRoom(id: String): ChatRoom
-  getChatRoomMessages(chatRoomId: String): [ChatRoomMessage]
-  getUser(id: String): User
-  getUserChatRoom(id: String): UserChatRoom
-  getUserVertexChatRoom(id: String!): UserVertexChatRoom
-  getVertexChatRoom(id: String): VertexChatRoom
-  getVertexChatRoomExamples(vertexChatRoomId: String): [VertexChatRoomExample]
-  getVertexChatRoomMessage(vertexChatRoomId: String): VertexChatRoomMessage
+  ): QueryHouseConnection_Connection
   me: User
+  movieConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryMovieConnection_Connection
+  movieSkillConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryMovieSkillConnection_Connection
+  movieToolConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryMovieToolConnection_Connection
 
   """Fetches an object given its global ID"""
   node(
@@ -154,8 +273,7 @@ type Query {
     """The global IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  postTweet(id: String, text: String): Boolean
-  userChatRoomConnection(
+  partnerConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 
@@ -167,7 +285,60 @@ type Query {
 
     """Returns the last n elements from the list."""
     last: Int
-  ): QueryUserChatRoomConnection_Connection
+  ): QueryPartnerConnection_Connection
+  postTweet(id: String, text: String): Boolean
+  roomTypeConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryRoomTypeConnection_Connection
+  roomTypeFixPartConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryRoomTypeFixPartConnection_Connection
+  skillConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QuerySkillConnection_Connection
+  toolConnection(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): QueryToolConnection_Connection
   userConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
@@ -181,7 +352,7 @@ type Query {
     """Returns the last n elements from the list."""
     last: Int
   ): QueryUserConnection_Connection
-  userVertexChatRoomConnection(
+  userSkillConnection(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 
@@ -193,56 +364,17 @@ type Query {
 
     """Returns the last n elements from the list."""
     last: Int
-  ): QueryUserVertexChatRoomConnection_Connection
-  vertexChatRoomConnection(
-    """Returns the elements in the list that come after the specified cursor"""
-    after: String
-
-    """Returns the elements in the list that come before the specified cursor"""
-    before: String
-
-    """Returns the first n elements from the list."""
-    first: Int
-
-    """Returns the last n elements from the list."""
-    last: Int
-  ): QueryVertexChatRoomConnection_Connection
-  vertexChatRoomExampleConnection(
-    """Returns the elements in the list that come after the specified cursor"""
-    after: String
-
-    """Returns the elements in the list that come before the specified cursor"""
-    before: String
-
-    """Returns the first n elements from the list."""
-    first: Int
-
-    """Returns the last n elements from the list."""
-    last: Int
-  ): QueryVertexChatRoomExampleConnection_Connection
-  vertexChatRoomMessageConnection(
-    """Returns the elements in the list that come after the specified cursor"""
-    after: String
-
-    """Returns the elements in the list that come before the specified cursor"""
-    before: String
-
-    """Returns the first n elements from the list."""
-    first: Int
-
-    """Returns the last n elements from the list."""
-    last: Int
-  ): QueryVertexChatRoomMessageConnection_Connection
+  ): QueryUserSkillConnection_Connection
 }
 
-type QueryChatRoomConnection_Connection {
+type QueryFixPartConnection_Connection {
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
   """
-  edges: [ChatRoomEdge]
+  edges: [FixPartEdge]
 
-  """Flattened list of ChatRoom type"""
-  nodes: [ChatRoom]
+  """Flattened list of FixPart type"""
+  nodes: [FixPart]
 
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
@@ -251,14 +383,14 @@ type QueryChatRoomConnection_Connection {
   totalCount: Int
 }
 
-type QueryChatRoomMessageConnection_Connection {
+type QueryHouseConnection_Connection {
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
   """
-  edges: [ChatRoomMessageEdge]
+  edges: [HouseEdge]
 
-  """Flattened list of ChatRoomMessage type"""
-  nodes: [ChatRoomMessage]
+  """Flattened list of House type"""
+  nodes: [House]
 
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
@@ -267,14 +399,126 @@ type QueryChatRoomMessageConnection_Connection {
   totalCount: Int
 }
 
-type QueryUserChatRoomConnection_Connection {
+type QueryMovieConnection_Connection {
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
   """
-  edges: [UserChatRoomEdge]
+  edges: [MovieEdge]
 
-  """Flattened list of UserChatRoom type"""
-  nodes: [UserChatRoom]
+  """Flattened list of Movie type"""
+  nodes: [Movie]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryMovieSkillConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [MovieSkillEdge]
+
+  """Flattened list of MovieSkill type"""
+  nodes: [MovieSkill]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryMovieToolConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [MovieToolEdge]
+
+  """Flattened list of MovieTool type"""
+  nodes: [MovieTool]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryPartnerConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [PartnerEdge]
+
+  """Flattened list of Partner type"""
+  nodes: [Partner]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryRoomTypeConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [RoomTypeEdge]
+
+  """Flattened list of RoomType type"""
+  nodes: [RoomType]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryRoomTypeFixPartConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [RoomTypeFixPartEdge]
+
+  """Flattened list of RoomTypeFixPart type"""
+  nodes: [RoomTypeFixPart]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QuerySkillConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [SkillEdge]
+
+  """Flattened list of Skill type"""
+  nodes: [Skill]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type QueryToolConnection_Connection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [ToolEdge]
+
+  """Flattened list of Tool type"""
+  nodes: [Tool]
 
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
@@ -299,62 +543,14 @@ type QueryUserConnection_Connection {
   totalCount: Int
 }
 
-type QueryUserVertexChatRoomConnection_Connection {
+type QueryUserSkillConnection_Connection {
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
   """
-  edges: [UserVertexChatRoomEdge]
+  edges: [UserSkillEdge]
 
-  """Flattened list of UserVertexChatRoom type"""
-  nodes: [UserVertexChatRoom]
-
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
-  pageInfo: PageInfo!
-  totalCount: Int
-}
-
-type QueryVertexChatRoomConnection_Connection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [VertexChatRoomEdge]
-
-  """Flattened list of VertexChatRoom type"""
-  nodes: [VertexChatRoom]
-
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
-  pageInfo: PageInfo!
-  totalCount: Int
-}
-
-type QueryVertexChatRoomExampleConnection_Connection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [VertexChatRoomExampleEdge]
-
-  """Flattened list of VertexChatRoomExample type"""
-  nodes: [VertexChatRoomExample]
-
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
-  pageInfo: PageInfo!
-  totalCount: Int
-}
-
-type QueryVertexChatRoomMessageConnection_Connection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [VertexChatRoomMessageEdge]
-
-  """Flattened list of VertexChatRoomMessage type"""
-  nodes: [VertexChatRoomMessage]
+  """Flattened list of UserSkill type"""
+  nodes: [UserSkill]
 
   """
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
@@ -369,32 +565,81 @@ enum Role {
   USER
 }
 
+type RoomType {
+  createdAt: DateTime!
+  id: ID
+  name: String
+  roomTypeFixParts: [RoomTypeFixPart!]!
+  updatedAt: DateTime!
+}
+
+type RoomTypeEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: RoomType
+}
+
+type RoomTypeFixPart {
+  createdAt: DateTime!
+  fixPartId: Int!
+  id: ID
+  roomTypeId: Int!
+  updatedAt: DateTime!
+}
+
+type RoomTypeFixPartEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: RoomTypeFixPart
+}
+
+type Skill {
+  createdAt: DateTime!
+  id: ID
+  movieSkills: [MovieSkill!]!
+  name: String
+  updatedAt: DateTime!
+  userSkills: [UserSkill!]!
+}
+
+type SkillEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Skill
+}
+
+type Tool {
+  createdAt: DateTime!
+  id: ID
+  movieTools: [MovieTool!]!
+  name: String
+  updatedAt: DateTime!
+}
+
+type ToolEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Tool
+}
+
 type User {
   createdAt: DateTime!
   email: String!
   iconUrl: String
   id: ID
-  iv: String
   role: Role
   uid: String!
   updatedAt: DateTime!
+  userSkills: [UserSkill!]!
   username: String
-}
-
-type UserChatRoom {
-  chatRoomId: Int!
-  createdAt: DateTime!
-  id: ID
-  updatedAt: DateTime!
-  userId: Int!
-}
-
-type UserChatRoomEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: UserChatRoom
 }
 
 type UserEdge {
@@ -405,78 +650,18 @@ type UserEdge {
   node: User
 }
 
-type UserVertexChatRoom {
+type UserSkill {
   createdAt: DateTime!
   id: ID
+  skillId: Int!
   updatedAt: DateTime!
   userId: Int!
-  vertexChatRoomId: Int!
 }
 
-type UserVertexChatRoomEdge {
+type UserSkillEdge {
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
   cursor: String!
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: UserVertexChatRoom
-}
-
-type VertexChatRoom {
-  UserVertexChatRoom: [UserVertexChatRoom!]!
-  VertexChatRoomExample: [VertexChatRoomExample!]!
-  VertexChatRoomMessage: [VertexChatRoomMessage!]!
-  context: String!
-  createdAt: DateTime!
-  id: ID
-  isShered: Boolean!
-  maxTokens: Int!
-  model: String!
-  name: String
-  temperature: Float!
-  title: String
-  topK: Int!
-  topP: Float!
-  updatedAt: DateTime!
-}
-
-type VertexChatRoomEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: VertexChatRoom
-}
-
-type VertexChatRoomExample {
-  createdAt: DateTime!
-  id: ID
-  input: String!
-  output: String!
-  updatedAt: DateTime!
-  vertexChatRoomId: ID
-}
-
-type VertexChatRoomExampleEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: VertexChatRoomExample
-}
-
-type VertexChatRoomMessage {
-  content: String!
-  createdAt: DateTime!
-  id: ID
-  role: String!
-  updatedAt: DateTime!
-  vertexChatRoomId: Int!
-}
-
-type VertexChatRoomMessageEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: VertexChatRoomMessage
+  node: UserSkill
 }

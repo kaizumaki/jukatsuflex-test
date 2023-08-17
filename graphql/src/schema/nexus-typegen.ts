@@ -59,29 +59,57 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  ChatRoom: { // root type
+  FixPart: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    maxTokens: number; // Int!
-    model: string; // String!
+    estimateFixTime?: string | null; // String
+    houseId?: number | null; // Int
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  FixPartEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['FixPart'] | null; // FixPart
+  }
+  House: { // root type
+    address?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     name?: string | null; // String
-    stream: boolean; // Boolean!
-    temperature: number; // Int!
-    title?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId?: number | null; // Int
   }
-  ChatRoomEdge: { // root type
+  HouseEdge: { // root type
     cursor: string; // String!
-    node?: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+    node?: NexusGenRootTypes['House'] | null; // House
   }
-  ChatRoomMessage: { // root type
-    content: string; // String!
+  Movie: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    role: string; // String!
+    estimatedTime?: string | null; // String
+    fixPartId?: number | null; // Int
+    learningTime?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
-  ChatRoomMessageEdge: { // root type
+  MovieEdge: { // root type
     cursor: string; // String!
-    node?: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+    node?: NexusGenRootTypes['Movie'] | null; // Movie
+  }
+  MovieSkill: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    movieId: number; // Int!
+    skillId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  MovieSkillEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['MovieSkill'] | null; // MovieSkill
+  }
+  MovieTool: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    movieId: number; // Int!
+    toolId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  MovieToolEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['MovieTool'] | null; // MovieTool
   }
   Mutation: {};
   PageInfo: { // root type
@@ -90,20 +118,69 @@ export interface NexusGenObjects {
     hasPreviousPage: boolean; // Boolean!
     startCursor?: string | null; // String
   }
+  Partner: { // root type
+    acceptableAreas: string[]; // [String!]!
+    companyAddress?: string | null; // String
+    companyName?: string | null; // String
+    companyTel?: string | null; // String
+    contactPerson?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    houseId?: number | null; // Int
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  PartnerEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['Partner'] | null; // Partner
+  }
   Query: {};
-  QueryChatRoomConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['ChatRoomEdge'] | null> | null; // [ChatRoomEdge]
-    nodes?: Array<NexusGenRootTypes['ChatRoom'] | null> | null; // [ChatRoom]
+  QueryFixPartConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['FixPartEdge'] | null> | null; // [FixPartEdge]
+    nodes?: Array<NexusGenRootTypes['FixPart'] | null> | null; // [FixPart]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
-  QueryChatRoomMessageConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['ChatRoomMessageEdge'] | null> | null; // [ChatRoomMessageEdge]
-    nodes?: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
+  QueryHouseConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['HouseEdge'] | null> | null; // [HouseEdge]
+    nodes?: Array<NexusGenRootTypes['House'] | null> | null; // [House]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
-  QueryUserChatRoomConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['UserChatRoomEdge'] | null> | null; // [UserChatRoomEdge]
-    nodes?: Array<NexusGenRootTypes['UserChatRoom'] | null> | null; // [UserChatRoom]
+  QueryMovieConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['MovieEdge'] | null> | null; // [MovieEdge]
+    nodes?: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryMovieSkillConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['MovieSkillEdge'] | null> | null; // [MovieSkillEdge]
+    nodes?: Array<NexusGenRootTypes['MovieSkill'] | null> | null; // [MovieSkill]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryMovieToolConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['MovieToolEdge'] | null> | null; // [MovieToolEdge]
+    nodes?: Array<NexusGenRootTypes['MovieTool'] | null> | null; // [MovieTool]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryPartnerConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['PartnerEdge'] | null> | null; // [PartnerEdge]
+    nodes?: Array<NexusGenRootTypes['Partner'] | null> | null; // [Partner]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryRoomTypeConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['RoomTypeEdge'] | null> | null; // [RoomTypeEdge]
+    nodes?: Array<NexusGenRootTypes['RoomType'] | null> | null; // [RoomType]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryRoomTypeFixPartConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['RoomTypeFixPartEdge'] | null> | null; // [RoomTypeFixPartEdge]
+    nodes?: Array<NexusGenRootTypes['RoomTypeFixPart'] | null> | null; // [RoomTypeFixPart]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QuerySkillConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['SkillEdge'] | null> | null; // [SkillEdge]
+    nodes?: Array<NexusGenRootTypes['Skill'] | null> | null; // [Skill]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  QueryToolConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['ToolEdge'] | null> | null; // [ToolEdge]
+    nodes?: Array<NexusGenRootTypes['Tool'] | null> | null; // [Tool]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   QueryUserConnection_Connection: { // root type
@@ -111,97 +188,70 @@ export interface NexusGenObjects {
     nodes?: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
-  QueryUserVertexChatRoomConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['UserVertexChatRoomEdge'] | null> | null; // [UserVertexChatRoomEdge]
-    nodes?: Array<NexusGenRootTypes['UserVertexChatRoom'] | null> | null; // [UserVertexChatRoom]
+  QueryUserSkillConnection_Connection: { // root type
+    edges?: Array<NexusGenRootTypes['UserSkillEdge'] | null> | null; // [UserSkillEdge]
+    nodes?: Array<NexusGenRootTypes['UserSkill'] | null> | null; // [UserSkill]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
-  QueryVertexChatRoomConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['VertexChatRoomEdge'] | null> | null; // [VertexChatRoomEdge]
-    nodes?: Array<NexusGenRootTypes['VertexChatRoom'] | null> | null; // [VertexChatRoom]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  RoomType: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    name?: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
-  QueryVertexChatRoomExampleConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['VertexChatRoomExampleEdge'] | null> | null; // [VertexChatRoomExampleEdge]
-    nodes?: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  RoomTypeEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['RoomType'] | null; // RoomType
   }
-  QueryVertexChatRoomMessageConnection_Connection: { // root type
-    edges?: Array<NexusGenRootTypes['VertexChatRoomMessageEdge'] | null> | null; // [VertexChatRoomMessageEdge]
-    nodes?: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  RoomTypeFixPart: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fixPartId: number; // Int!
+    roomTypeId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  RoomTypeFixPartEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['RoomTypeFixPart'] | null; // RoomTypeFixPart
+  }
+  Skill: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    name?: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  SkillEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['Skill'] | null; // Skill
+  }
+  Tool: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    name?: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  ToolEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['Tool'] | null; // Tool
   }
   User: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     iconUrl?: string | null; // String
-    iv?: string | null; // String
     role?: NexusGenEnums['Role'] | null; // Role
     uid: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username?: string | null; // String
   }
-  UserChatRoom: { // root type
-    chatRoomId: number; // Int!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: number; // Int!
-  }
-  UserChatRoomEdge: { // root type
-    cursor: string; // String!
-    node?: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
-  }
   UserEdge: { // root type
     cursor: string; // String!
     node?: NexusGenRootTypes['User'] | null; // User
   }
-  UserVertexChatRoom: { // root type
+  UserSkill: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    skillId: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     userId: number; // Int!
-    vertexChatRoomId: number; // Int!
   }
-  UserVertexChatRoomEdge: { // root type
+  UserSkillEdge: { // root type
     cursor: string; // String!
-    node?: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
-  }
-  VertexChatRoom: { // root type
-    context: string; // String!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    isShered: boolean; // Boolean!
-    maxTokens: number; // Int!
-    model: string; // String!
-    name?: string | null; // String
-    temperature: number; // Float!
-    title?: string | null; // String
-    topK: number; // Int!
-    topP: number; // Float!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-  }
-  VertexChatRoomEdge: { // root type
-    cursor: string; // String!
-    node?: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-  }
-  VertexChatRoomExample: { // root type
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    input: string; // String!
-    output: string; // String!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-  }
-  VertexChatRoomExampleEdge: { // root type
-    cursor: string; // String!
-    node?: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
-  }
-  VertexChatRoomMessage: { // root type
-    content: string; // String!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    role: string; // String!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    vertexChatRoomId: number; // Int!
-  }
-  VertexChatRoomMessageEdge: { // root type
-    cursor: string; // String!
-    node?: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
+    node?: NexusGenRootTypes['UserSkill'] | null; // UserSkill
   }
 }
 
@@ -217,61 +267,103 @@ export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  ChatRoom: { // field return type
-    chatRoomMessages: NexusGenRootTypes['ChatRoomMessage'][]; // [ChatRoomMessage!]!
+  FixPart: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    estimateFixTime: string | null; // String
+    houseId: number | null; // Int
+    id: string | null; // ID
+    roomTypeFixParts: NexusGenRootTypes['RoomTypeFixPart'][]; // [RoomTypeFixPart!]!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  FixPartEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['FixPart'] | null; // FixPart
+  }
+  House: { // field return type
+    address: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
-    maxTokens: number; // Int!
-    model: string; // String!
     name: string | null; // String
-    stream: boolean; // Boolean!
-    temperature: number; // Int!
-    title: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userChatRooms: NexusGenRootTypes['UserChatRoom'][]; // [UserChatRoom!]!
+    userId: number | null; // Int
   }
-  ChatRoomEdge: { // field return type
+  HouseEdge: { // field return type
     cursor: string; // String!
-    node: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
+    node: NexusGenRootTypes['House'] | null; // House
   }
-  ChatRoomMessage: { // field return type
-    chatRoomId: string | null; // ID
-    content: string; // String!
+  Movie: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    estimatedTime: string | null; // String
+    fixPartId: number | null; // Int
+    id: string | null; // ID
+    learningTime: string | null; // String
+    movieSkills: NexusGenRootTypes['MovieSkill'][]; // [MovieSkill!]!
+    movieTools: NexusGenRootTypes['MovieTool'][]; // [MovieTool!]!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  MovieEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['Movie'] | null; // Movie
+  }
+  MovieSkill: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
-    role: string; // String!
+    movieId: number; // Int!
+    skillId: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: string | null; // ID
   }
-  ChatRoomMessageEdge: { // field return type
+  MovieSkillEdge: { // field return type
     cursor: string; // String!
-    node: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+    node: NexusGenRootTypes['MovieSkill'] | null; // MovieSkill
+  }
+  MovieTool: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    movieId: number; // Int!
+    toolId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  MovieToolEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['MovieTool'] | null; // MovieTool
   }
   Mutation: { // field return type
-    createChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
-    createChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+    createFixPart: NexusGenRootTypes['FixPart'] | null; // FixPart
+    createHouse: NexusGenRootTypes['House'] | null; // House
+    createMovie: NexusGenRootTypes['Movie'] | null; // Movie
+    createMovieSkill: NexusGenRootTypes['MovieSkill'] | null; // MovieSkill
+    createMovieTool: NexusGenRootTypes['MovieTool'] | null; // MovieTool
+    createPartner: NexusGenRootTypes['Partner'] | null; // Partner
+    createRoomType: NexusGenRootTypes['RoomType'] | null; // RoomType
+    createRoomTypeFixPart: NexusGenRootTypes['RoomTypeFixPart'] | null; // RoomTypeFixPart
+    createSkill: NexusGenRootTypes['Skill'] | null; // Skill
+    createTool: NexusGenRootTypes['Tool'] | null; // Tool
     createUser: NexusGenRootTypes['User'] | null; // User
-    createUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
-    createUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
-    createVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-    createVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
-    createVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
-    deleteChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
-    deleteChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+    createUserSkill: NexusGenRootTypes['UserSkill'] | null; // UserSkill
+    deleteFixPart: NexusGenRootTypes['FixPart'] | null; // FixPart
+    deleteHouse: NexusGenRootTypes['House'] | null; // House
+    deleteMovie: NexusGenRootTypes['Movie'] | null; // Movie
+    deleteMovieSkill: NexusGenRootTypes['MovieSkill'] | null; // MovieSkill
+    deleteMovieTool: NexusGenRootTypes['MovieTool'] | null; // MovieTool
+    deletePartner: NexusGenRootTypes['Partner'] | null; // Partner
+    deleteRoomType: NexusGenRootTypes['RoomType'] | null; // RoomType
+    deleteRoomTypeFixPart: NexusGenRootTypes['RoomTypeFixPart'] | null; // RoomTypeFixPart
+    deleteSkill: NexusGenRootTypes['Skill'] | null; // Skill
+    deleteTool: NexusGenRootTypes['Tool'] | null; // Tool
     deleteUser: NexusGenRootTypes['User'] | null; // User
-    deleteUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
-    deleteUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
-    deleteVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-    deleteVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
-    deleteVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
-    updateChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
-    updateChatRoomMessage: NexusGenRootTypes['ChatRoomMessage'] | null; // ChatRoomMessage
+    deleteUserSkill: NexusGenRootTypes['UserSkill'] | null; // UserSkill
+    updateFixPart: NexusGenRootTypes['FixPart'] | null; // FixPart
+    updateHouse: NexusGenRootTypes['House'] | null; // House
+    updateMovie: NexusGenRootTypes['Movie'] | null; // Movie
+    updateMovieSkill: NexusGenRootTypes['MovieSkill'] | null; // MovieSkill
+    updateMovieTool: NexusGenRootTypes['MovieTool'] | null; // MovieTool
+    updatePartner: NexusGenRootTypes['Partner'] | null; // Partner
+    updateRoomType: NexusGenRootTypes['RoomType'] | null; // RoomType
+    updateRoomTypeFixPart: NexusGenRootTypes['RoomTypeFixPart'] | null; // RoomTypeFixPart
+    updateSkill: NexusGenRootTypes['Skill'] | null; // Skill
+    updateTool: NexusGenRootTypes['Tool'] | null; // Tool
     updateUser: NexusGenRootTypes['User'] | null; // User
-    updateUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
-    updateUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
-    updateVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-    updateVertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
-    updateVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
+    updateUserSkill: NexusGenRootTypes['UserSkill'] | null; // UserSkill
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -279,43 +371,108 @@ export interface NexusGenFieldTypes {
     hasPreviousPage: boolean; // Boolean!
     startCursor: string | null; // String
   }
+  Partner: { // field return type
+    acceptableAreas: string[]; // [String!]!
+    companyAddress: string | null; // String
+    companyName: string | null; // String
+    companyTel: string | null; // String
+    contactPerson: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    houseId: number | null; // Int
+    id: string | null; // ID
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  PartnerEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['Partner'] | null; // Partner
+  }
   Query: { // field return type
-    chatRoomConnection: NexusGenRootTypes['QueryChatRoomConnection_Connection'] | null; // QueryChatRoomConnection_Connection
-    chatRoomMessageConnection: NexusGenRootTypes['QueryChatRoomMessageConnection_Connection'] | null; // QueryChatRoomMessageConnection_Connection
-    getChatRoom: NexusGenRootTypes['ChatRoom'] | null; // ChatRoom
-    getChatRoomMessages: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
+    fixPartConnection: NexusGenRootTypes['QueryFixPartConnection_Connection'] | null; // QueryFixPartConnection_Connection
+    getFixPart: NexusGenRootTypes['FixPart'] | null; // FixPart
+    getHouse: NexusGenRootTypes['House'] | null; // House
+    getMovie: NexusGenRootTypes['Movie'] | null; // Movie
+    getMovieSkill: NexusGenRootTypes['MovieSkill'] | null; // MovieSkill
+    getMovieTool: NexusGenRootTypes['MovieTool'] | null; // MovieTool
+    getPartner: NexusGenRootTypes['Partner'] | null; // Partner
+    getRoomType: NexusGenRootTypes['RoomType'] | null; // RoomType
+    getRoomTypeFixPart: NexusGenRootTypes['RoomTypeFixPart'] | null; // RoomTypeFixPart
+    getSkill: NexusGenRootTypes['Skill'] | null; // Skill
+    getTool: NexusGenRootTypes['Tool'] | null; // Tool
     getUser: NexusGenRootTypes['User'] | null; // User
-    getUserChatRoom: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
-    getUserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
-    getVertexChatRoom: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-    getVertexChatRoomExamples: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
-    getVertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
+    getUserSkill: NexusGenRootTypes['UserSkill'] | null; // UserSkill
+    houseConnection: NexusGenRootTypes['QueryHouseConnection_Connection'] | null; // QueryHouseConnection_Connection
     me: NexusGenRootTypes['User'] | null; // User
+    movieConnection: NexusGenRootTypes['QueryMovieConnection_Connection'] | null; // QueryMovieConnection_Connection
+    movieSkillConnection: NexusGenRootTypes['QueryMovieSkillConnection_Connection'] | null; // QueryMovieSkillConnection_Connection
+    movieToolConnection: NexusGenRootTypes['QueryMovieToolConnection_Connection'] | null; // QueryMovieToolConnection_Connection
     node: NexusGenRootTypes['Node'] | null; // Node
     nodes: Array<NexusGenRootTypes['Node'] | null>; // [Node]!
+    partnerConnection: NexusGenRootTypes['QueryPartnerConnection_Connection'] | null; // QueryPartnerConnection_Connection
     postTweet: boolean | null; // Boolean
-    userChatRoomConnection: NexusGenRootTypes['QueryUserChatRoomConnection_Connection'] | null; // QueryUserChatRoomConnection_Connection
+    roomTypeConnection: NexusGenRootTypes['QueryRoomTypeConnection_Connection'] | null; // QueryRoomTypeConnection_Connection
+    roomTypeFixPartConnection: NexusGenRootTypes['QueryRoomTypeFixPartConnection_Connection'] | null; // QueryRoomTypeFixPartConnection_Connection
+    skillConnection: NexusGenRootTypes['QuerySkillConnection_Connection'] | null; // QuerySkillConnection_Connection
+    toolConnection: NexusGenRootTypes['QueryToolConnection_Connection'] | null; // QueryToolConnection_Connection
     userConnection: NexusGenRootTypes['QueryUserConnection_Connection'] | null; // QueryUserConnection_Connection
-    userVertexChatRoomConnection: NexusGenRootTypes['QueryUserVertexChatRoomConnection_Connection'] | null; // QueryUserVertexChatRoomConnection_Connection
-    vertexChatRoomConnection: NexusGenRootTypes['QueryVertexChatRoomConnection_Connection'] | null; // QueryVertexChatRoomConnection_Connection
-    vertexChatRoomExampleConnection: NexusGenRootTypes['QueryVertexChatRoomExampleConnection_Connection'] | null; // QueryVertexChatRoomExampleConnection_Connection
-    vertexChatRoomMessageConnection: NexusGenRootTypes['QueryVertexChatRoomMessageConnection_Connection'] | null; // QueryVertexChatRoomMessageConnection_Connection
+    userSkillConnection: NexusGenRootTypes['QueryUserSkillConnection_Connection'] | null; // QueryUserSkillConnection_Connection
   }
-  QueryChatRoomConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['ChatRoomEdge'] | null> | null; // [ChatRoomEdge]
-    nodes: Array<NexusGenRootTypes['ChatRoom'] | null> | null; // [ChatRoom]
+  QueryFixPartConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['FixPartEdge'] | null> | null; // [FixPartEdge]
+    nodes: Array<NexusGenRootTypes['FixPart'] | null> | null; // [FixPart]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
     totalCount: number | null; // Int
   }
-  QueryChatRoomMessageConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['ChatRoomMessageEdge'] | null> | null; // [ChatRoomMessageEdge]
-    nodes: Array<NexusGenRootTypes['ChatRoomMessage'] | null> | null; // [ChatRoomMessage]
+  QueryHouseConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['HouseEdge'] | null> | null; // [HouseEdge]
+    nodes: Array<NexusGenRootTypes['House'] | null> | null; // [House]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
     totalCount: number | null; // Int
   }
-  QueryUserChatRoomConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['UserChatRoomEdge'] | null> | null; // [UserChatRoomEdge]
-    nodes: Array<NexusGenRootTypes['UserChatRoom'] | null> | null; // [UserChatRoom]
+  QueryMovieConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['MovieEdge'] | null> | null; // [MovieEdge]
+    nodes: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryMovieSkillConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['MovieSkillEdge'] | null> | null; // [MovieSkillEdge]
+    nodes: Array<NexusGenRootTypes['MovieSkill'] | null> | null; // [MovieSkill]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryMovieToolConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['MovieToolEdge'] | null> | null; // [MovieToolEdge]
+    nodes: Array<NexusGenRootTypes['MovieTool'] | null> | null; // [MovieTool]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryPartnerConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['PartnerEdge'] | null> | null; // [PartnerEdge]
+    nodes: Array<NexusGenRootTypes['Partner'] | null> | null; // [Partner]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryRoomTypeConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['RoomTypeEdge'] | null> | null; // [RoomTypeEdge]
+    nodes: Array<NexusGenRootTypes['RoomType'] | null> | null; // [RoomType]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryRoomTypeFixPartConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['RoomTypeFixPartEdge'] | null> | null; // [RoomTypeFixPartEdge]
+    nodes: Array<NexusGenRootTypes['RoomTypeFixPart'] | null> | null; // [RoomTypeFixPart]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QuerySkillConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['SkillEdge'] | null> | null; // [SkillEdge]
+    nodes: Array<NexusGenRootTypes['Skill'] | null> | null; // [Skill]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  QueryToolConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['ToolEdge'] | null> | null; // [ToolEdge]
+    nodes: Array<NexusGenRootTypes['Tool'] | null> | null; // [Tool]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
     totalCount: number | null; // Int
   }
@@ -325,111 +482,82 @@ export interface NexusGenFieldTypes {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
     totalCount: number | null; // Int
   }
-  QueryUserVertexChatRoomConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['UserVertexChatRoomEdge'] | null> | null; // [UserVertexChatRoomEdge]
-    nodes: Array<NexusGenRootTypes['UserVertexChatRoom'] | null> | null; // [UserVertexChatRoom]
+  QueryUserSkillConnection_Connection: { // field return type
+    edges: Array<NexusGenRootTypes['UserSkillEdge'] | null> | null; // [UserSkillEdge]
+    nodes: Array<NexusGenRootTypes['UserSkill'] | null> | null; // [UserSkill]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
     totalCount: number | null; // Int
   }
-  QueryVertexChatRoomConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['VertexChatRoomEdge'] | null> | null; // [VertexChatRoomEdge]
-    nodes: Array<NexusGenRootTypes['VertexChatRoom'] | null> | null; // [VertexChatRoom]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-    totalCount: number | null; // Int
+  RoomType: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    name: string | null; // String
+    roomTypeFixParts: NexusGenRootTypes['RoomTypeFixPart'][]; // [RoomTypeFixPart!]!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
-  QueryVertexChatRoomExampleConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['VertexChatRoomExampleEdge'] | null> | null; // [VertexChatRoomExampleEdge]
-    nodes: Array<NexusGenRootTypes['VertexChatRoomExample'] | null> | null; // [VertexChatRoomExample]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-    totalCount: number | null; // Int
+  RoomTypeEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['RoomType'] | null; // RoomType
   }
-  QueryVertexChatRoomMessageConnection_Connection: { // field return type
-    edges: Array<NexusGenRootTypes['VertexChatRoomMessageEdge'] | null> | null; // [VertexChatRoomMessageEdge]
-    nodes: Array<NexusGenRootTypes['VertexChatRoomMessage'] | null> | null; // [VertexChatRoomMessage]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-    totalCount: number | null; // Int
+  RoomTypeFixPart: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fixPartId: number; // Int!
+    id: string | null; // ID
+    roomTypeId: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  RoomTypeFixPartEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['RoomTypeFixPart'] | null; // RoomTypeFixPart
+  }
+  Skill: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    movieSkills: NexusGenRootTypes['MovieSkill'][]; // [MovieSkill!]!
+    name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userSkills: NexusGenRootTypes['UserSkill'][]; // [UserSkill!]!
+  }
+  SkillEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['Skill'] | null; // Skill
+  }
+  Tool: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string | null; // ID
+    movieTools: NexusGenRootTypes['MovieTool'][]; // [MovieTool!]!
+    name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  ToolEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['Tool'] | null; // Tool
   }
   User: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     iconUrl: string | null; // String
     id: string | null; // ID
-    iv: string | null; // String
     role: NexusGenEnums['Role'] | null; // Role
     uid: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userSkills: NexusGenRootTypes['UserSkill'][]; // [UserSkill!]!
     username: string | null; // String
-  }
-  UserChatRoom: { // field return type
-    chatRoomId: number; // Int!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    id: string | null; // ID
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: number; // Int!
-  }
-  UserChatRoomEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['UserChatRoom'] | null; // UserChatRoom
   }
   UserEdge: { // field return type
     cursor: string; // String!
     node: NexusGenRootTypes['User'] | null; // User
   }
-  UserVertexChatRoom: { // field return type
+  UserSkill: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string | null; // ID
+    skillId: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     userId: number; // Int!
-    vertexChatRoomId: number; // Int!
   }
-  UserVertexChatRoomEdge: { // field return type
+  UserSkillEdge: { // field return type
     cursor: string; // String!
-    node: NexusGenRootTypes['UserVertexChatRoom'] | null; // UserVertexChatRoom
-  }
-  VertexChatRoom: { // field return type
-    UserVertexChatRoom: NexusGenRootTypes['UserVertexChatRoom'][]; // [UserVertexChatRoom!]!
-    VertexChatRoomExample: NexusGenRootTypes['VertexChatRoomExample'][]; // [VertexChatRoomExample!]!
-    VertexChatRoomMessage: NexusGenRootTypes['VertexChatRoomMessage'][]; // [VertexChatRoomMessage!]!
-    context: string; // String!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    id: string | null; // ID
-    isShered: boolean; // Boolean!
-    maxTokens: number; // Int!
-    model: string; // String!
-    name: string | null; // String
-    temperature: number; // Float!
-    title: string | null; // String
-    topK: number; // Int!
-    topP: number; // Float!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-  }
-  VertexChatRoomEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['VertexChatRoom'] | null; // VertexChatRoom
-  }
-  VertexChatRoomExample: { // field return type
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    id: string | null; // ID
-    input: string; // String!
-    output: string; // String!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    vertexChatRoomId: string | null; // ID
-  }
-  VertexChatRoomExampleEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['VertexChatRoomExample'] | null; // VertexChatRoomExample
-  }
-  VertexChatRoomMessage: { // field return type
-    content: string; // String!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    id: string | null; // ID
-    role: string; // String!
-    updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    vertexChatRoomId: number; // Int!
-  }
-  VertexChatRoomMessageEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['VertexChatRoomMessage'] | null; // VertexChatRoomMessage
+    node: NexusGenRootTypes['UserSkill'] | null; // UserSkill
   }
   Node: { // field return type
     id: string | null; // ID
@@ -437,61 +565,103 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  ChatRoom: { // field return type name
-    chatRoomMessages: 'ChatRoomMessage'
+  FixPart: { // field return type name
+    createdAt: 'DateTime'
+    estimateFixTime: 'String'
+    houseId: 'Int'
+    id: 'ID'
+    roomTypeFixParts: 'RoomTypeFixPart'
+    updatedAt: 'DateTime'
+  }
+  FixPartEdge: { // field return type name
+    cursor: 'String'
+    node: 'FixPart'
+  }
+  House: { // field return type name
+    address: 'String'
     createdAt: 'DateTime'
     id: 'ID'
-    maxTokens: 'Int'
-    model: 'String'
     name: 'String'
-    stream: 'Boolean'
-    temperature: 'Int'
-    title: 'String'
     updatedAt: 'DateTime'
-    userChatRooms: 'UserChatRoom'
+    userId: 'Int'
   }
-  ChatRoomEdge: { // field return type name
+  HouseEdge: { // field return type name
     cursor: 'String'
-    node: 'ChatRoom'
+    node: 'House'
   }
-  ChatRoomMessage: { // field return type name
-    chatRoomId: 'ID'
-    content: 'String'
+  Movie: { // field return type name
+    createdAt: 'DateTime'
+    estimatedTime: 'String'
+    fixPartId: 'Int'
+    id: 'ID'
+    learningTime: 'String'
+    movieSkills: 'MovieSkill'
+    movieTools: 'MovieTool'
+    updatedAt: 'DateTime'
+  }
+  MovieEdge: { // field return type name
+    cursor: 'String'
+    node: 'Movie'
+  }
+  MovieSkill: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
-    role: 'String'
+    movieId: 'Int'
+    skillId: 'Int'
     updatedAt: 'DateTime'
-    userId: 'ID'
   }
-  ChatRoomMessageEdge: { // field return type name
+  MovieSkillEdge: { // field return type name
     cursor: 'String'
-    node: 'ChatRoomMessage'
+    node: 'MovieSkill'
+  }
+  MovieTool: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    movieId: 'Int'
+    toolId: 'Int'
+    updatedAt: 'DateTime'
+  }
+  MovieToolEdge: { // field return type name
+    cursor: 'String'
+    node: 'MovieTool'
   }
   Mutation: { // field return type name
-    createChatRoom: 'ChatRoom'
-    createChatRoomMessage: 'ChatRoomMessage'
+    createFixPart: 'FixPart'
+    createHouse: 'House'
+    createMovie: 'Movie'
+    createMovieSkill: 'MovieSkill'
+    createMovieTool: 'MovieTool'
+    createPartner: 'Partner'
+    createRoomType: 'RoomType'
+    createRoomTypeFixPart: 'RoomTypeFixPart'
+    createSkill: 'Skill'
+    createTool: 'Tool'
     createUser: 'User'
-    createUserChatRoom: 'UserChatRoom'
-    createUserVertexChatRoom: 'UserVertexChatRoom'
-    createVertexChatRoom: 'VertexChatRoom'
-    createVertexChatRoomExample: 'VertexChatRoomExample'
-    createVertexChatRoomMessage: 'VertexChatRoomMessage'
-    deleteChatRoom: 'ChatRoom'
-    deleteChatRoomMessage: 'ChatRoomMessage'
+    createUserSkill: 'UserSkill'
+    deleteFixPart: 'FixPart'
+    deleteHouse: 'House'
+    deleteMovie: 'Movie'
+    deleteMovieSkill: 'MovieSkill'
+    deleteMovieTool: 'MovieTool'
+    deletePartner: 'Partner'
+    deleteRoomType: 'RoomType'
+    deleteRoomTypeFixPart: 'RoomTypeFixPart'
+    deleteSkill: 'Skill'
+    deleteTool: 'Tool'
     deleteUser: 'User'
-    deleteUserChatRoom: 'UserChatRoom'
-    deleteUserVertexChatRoom: 'UserVertexChatRoom'
-    deleteVertexChatRoom: 'VertexChatRoom'
-    deleteVertexChatRoomExample: 'VertexChatRoomExample'
-    deleteVertexChatRoomMessage: 'VertexChatRoomMessage'
-    updateChatRoom: 'ChatRoom'
-    updateChatRoomMessage: 'ChatRoomMessage'
+    deleteUserSkill: 'UserSkill'
+    updateFixPart: 'FixPart'
+    updateHouse: 'House'
+    updateMovie: 'Movie'
+    updateMovieSkill: 'MovieSkill'
+    updateMovieTool: 'MovieTool'
+    updatePartner: 'Partner'
+    updateRoomType: 'RoomType'
+    updateRoomTypeFixPart: 'RoomTypeFixPart'
+    updateSkill: 'Skill'
+    updateTool: 'Tool'
     updateUser: 'User'
-    updateUserChatRoom: 'UserChatRoom'
-    updateUserVertexChatRoom: 'UserVertexChatRoom'
-    updateVertexChatRoom: 'VertexChatRoom'
-    updateVertexChatRoomExample: 'VertexChatRoomExample'
-    updateVertexChatRoomMessage: 'VertexChatRoomMessage'
+    updateUserSkill: 'UserSkill'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -499,43 +669,108 @@ export interface NexusGenFieldTypeNames {
     hasPreviousPage: 'Boolean'
     startCursor: 'String'
   }
+  Partner: { // field return type name
+    acceptableAreas: 'String'
+    companyAddress: 'String'
+    companyName: 'String'
+    companyTel: 'String'
+    contactPerson: 'String'
+    createdAt: 'DateTime'
+    houseId: 'Int'
+    id: 'ID'
+    updatedAt: 'DateTime'
+  }
+  PartnerEdge: { // field return type name
+    cursor: 'String'
+    node: 'Partner'
+  }
   Query: { // field return type name
-    chatRoomConnection: 'QueryChatRoomConnection_Connection'
-    chatRoomMessageConnection: 'QueryChatRoomMessageConnection_Connection'
-    getChatRoom: 'ChatRoom'
-    getChatRoomMessages: 'ChatRoomMessage'
+    fixPartConnection: 'QueryFixPartConnection_Connection'
+    getFixPart: 'FixPart'
+    getHouse: 'House'
+    getMovie: 'Movie'
+    getMovieSkill: 'MovieSkill'
+    getMovieTool: 'MovieTool'
+    getPartner: 'Partner'
+    getRoomType: 'RoomType'
+    getRoomTypeFixPart: 'RoomTypeFixPart'
+    getSkill: 'Skill'
+    getTool: 'Tool'
     getUser: 'User'
-    getUserChatRoom: 'UserChatRoom'
-    getUserVertexChatRoom: 'UserVertexChatRoom'
-    getVertexChatRoom: 'VertexChatRoom'
-    getVertexChatRoomExamples: 'VertexChatRoomExample'
-    getVertexChatRoomMessage: 'VertexChatRoomMessage'
+    getUserSkill: 'UserSkill'
+    houseConnection: 'QueryHouseConnection_Connection'
     me: 'User'
+    movieConnection: 'QueryMovieConnection_Connection'
+    movieSkillConnection: 'QueryMovieSkillConnection_Connection'
+    movieToolConnection: 'QueryMovieToolConnection_Connection'
     node: 'Node'
     nodes: 'Node'
+    partnerConnection: 'QueryPartnerConnection_Connection'
     postTweet: 'Boolean'
-    userChatRoomConnection: 'QueryUserChatRoomConnection_Connection'
+    roomTypeConnection: 'QueryRoomTypeConnection_Connection'
+    roomTypeFixPartConnection: 'QueryRoomTypeFixPartConnection_Connection'
+    skillConnection: 'QuerySkillConnection_Connection'
+    toolConnection: 'QueryToolConnection_Connection'
     userConnection: 'QueryUserConnection_Connection'
-    userVertexChatRoomConnection: 'QueryUserVertexChatRoomConnection_Connection'
-    vertexChatRoomConnection: 'QueryVertexChatRoomConnection_Connection'
-    vertexChatRoomExampleConnection: 'QueryVertexChatRoomExampleConnection_Connection'
-    vertexChatRoomMessageConnection: 'QueryVertexChatRoomMessageConnection_Connection'
+    userSkillConnection: 'QueryUserSkillConnection_Connection'
   }
-  QueryChatRoomConnection_Connection: { // field return type name
-    edges: 'ChatRoomEdge'
-    nodes: 'ChatRoom'
+  QueryFixPartConnection_Connection: { // field return type name
+    edges: 'FixPartEdge'
+    nodes: 'FixPart'
     pageInfo: 'PageInfo'
     totalCount: 'Int'
   }
-  QueryChatRoomMessageConnection_Connection: { // field return type name
-    edges: 'ChatRoomMessageEdge'
-    nodes: 'ChatRoomMessage'
+  QueryHouseConnection_Connection: { // field return type name
+    edges: 'HouseEdge'
+    nodes: 'House'
     pageInfo: 'PageInfo'
     totalCount: 'Int'
   }
-  QueryUserChatRoomConnection_Connection: { // field return type name
-    edges: 'UserChatRoomEdge'
-    nodes: 'UserChatRoom'
+  QueryMovieConnection_Connection: { // field return type name
+    edges: 'MovieEdge'
+    nodes: 'Movie'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryMovieSkillConnection_Connection: { // field return type name
+    edges: 'MovieSkillEdge'
+    nodes: 'MovieSkill'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryMovieToolConnection_Connection: { // field return type name
+    edges: 'MovieToolEdge'
+    nodes: 'MovieTool'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryPartnerConnection_Connection: { // field return type name
+    edges: 'PartnerEdge'
+    nodes: 'Partner'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryRoomTypeConnection_Connection: { // field return type name
+    edges: 'RoomTypeEdge'
+    nodes: 'RoomType'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryRoomTypeFixPartConnection_Connection: { // field return type name
+    edges: 'RoomTypeFixPartEdge'
+    nodes: 'RoomTypeFixPart'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QuerySkillConnection_Connection: { // field return type name
+    edges: 'SkillEdge'
+    nodes: 'Skill'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  QueryToolConnection_Connection: { // field return type name
+    edges: 'ToolEdge'
+    nodes: 'Tool'
     pageInfo: 'PageInfo'
     totalCount: 'Int'
   }
@@ -545,111 +780,82 @@ export interface NexusGenFieldTypeNames {
     pageInfo: 'PageInfo'
     totalCount: 'Int'
   }
-  QueryUserVertexChatRoomConnection_Connection: { // field return type name
-    edges: 'UserVertexChatRoomEdge'
-    nodes: 'UserVertexChatRoom'
+  QueryUserSkillConnection_Connection: { // field return type name
+    edges: 'UserSkillEdge'
+    nodes: 'UserSkill'
     pageInfo: 'PageInfo'
     totalCount: 'Int'
   }
-  QueryVertexChatRoomConnection_Connection: { // field return type name
-    edges: 'VertexChatRoomEdge'
-    nodes: 'VertexChatRoom'
-    pageInfo: 'PageInfo'
-    totalCount: 'Int'
+  RoomType: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
+    roomTypeFixParts: 'RoomTypeFixPart'
+    updatedAt: 'DateTime'
   }
-  QueryVertexChatRoomExampleConnection_Connection: { // field return type name
-    edges: 'VertexChatRoomExampleEdge'
-    nodes: 'VertexChatRoomExample'
-    pageInfo: 'PageInfo'
-    totalCount: 'Int'
+  RoomTypeEdge: { // field return type name
+    cursor: 'String'
+    node: 'RoomType'
   }
-  QueryVertexChatRoomMessageConnection_Connection: { // field return type name
-    edges: 'VertexChatRoomMessageEdge'
-    nodes: 'VertexChatRoomMessage'
-    pageInfo: 'PageInfo'
-    totalCount: 'Int'
+  RoomTypeFixPart: { // field return type name
+    createdAt: 'DateTime'
+    fixPartId: 'Int'
+    id: 'ID'
+    roomTypeId: 'Int'
+    updatedAt: 'DateTime'
+  }
+  RoomTypeFixPartEdge: { // field return type name
+    cursor: 'String'
+    node: 'RoomTypeFixPart'
+  }
+  Skill: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    movieSkills: 'MovieSkill'
+    name: 'String'
+    updatedAt: 'DateTime'
+    userSkills: 'UserSkill'
+  }
+  SkillEdge: { // field return type name
+    cursor: 'String'
+    node: 'Skill'
+  }
+  Tool: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    movieTools: 'MovieTool'
+    name: 'String'
+    updatedAt: 'DateTime'
+  }
+  ToolEdge: { // field return type name
+    cursor: 'String'
+    node: 'Tool'
   }
   User: { // field return type name
     createdAt: 'DateTime'
     email: 'String'
     iconUrl: 'String'
     id: 'ID'
-    iv: 'String'
     role: 'Role'
     uid: 'String'
     updatedAt: 'DateTime'
+    userSkills: 'UserSkill'
     username: 'String'
-  }
-  UserChatRoom: { // field return type name
-    chatRoomId: 'Int'
-    createdAt: 'DateTime'
-    id: 'ID'
-    updatedAt: 'DateTime'
-    userId: 'Int'
-  }
-  UserChatRoomEdge: { // field return type name
-    cursor: 'String'
-    node: 'UserChatRoom'
   }
   UserEdge: { // field return type name
     cursor: 'String'
     node: 'User'
   }
-  UserVertexChatRoom: { // field return type name
+  UserSkill: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
+    skillId: 'Int'
     updatedAt: 'DateTime'
     userId: 'Int'
-    vertexChatRoomId: 'Int'
   }
-  UserVertexChatRoomEdge: { // field return type name
+  UserSkillEdge: { // field return type name
     cursor: 'String'
-    node: 'UserVertexChatRoom'
-  }
-  VertexChatRoom: { // field return type name
-    UserVertexChatRoom: 'UserVertexChatRoom'
-    VertexChatRoomExample: 'VertexChatRoomExample'
-    VertexChatRoomMessage: 'VertexChatRoomMessage'
-    context: 'String'
-    createdAt: 'DateTime'
-    id: 'ID'
-    isShered: 'Boolean'
-    maxTokens: 'Int'
-    model: 'String'
-    name: 'String'
-    temperature: 'Float'
-    title: 'String'
-    topK: 'Int'
-    topP: 'Float'
-    updatedAt: 'DateTime'
-  }
-  VertexChatRoomEdge: { // field return type name
-    cursor: 'String'
-    node: 'VertexChatRoom'
-  }
-  VertexChatRoomExample: { // field return type name
-    createdAt: 'DateTime'
-    id: 'ID'
-    input: 'String'
-    output: 'String'
-    updatedAt: 'DateTime'
-    vertexChatRoomId: 'ID'
-  }
-  VertexChatRoomExampleEdge: { // field return type name
-    cursor: 'String'
-    node: 'VertexChatRoomExample'
-  }
-  VertexChatRoomMessage: { // field return type name
-    content: 'String'
-    createdAt: 'DateTime'
-    id: 'ID'
-    role: 'String'
-    updatedAt: 'DateTime'
-    vertexChatRoomId: 'Int'
-  }
-  VertexChatRoomMessageEdge: { // field return type name
-    cursor: 'String'
-    node: 'VertexChatRoomMessage'
+    node: 'UserSkill'
   }
   Node: { // field return type name
     id: 'ID'
@@ -658,154 +864,198 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createChatRoom: { // args
-      maxTokens?: number | null; // Int
-      model?: string | null; // String
-      name?: string | null; // String
-      stream?: boolean | null; // Boolean
-      systemContent?: string | null; // String
-      temperature?: number | null; // Int
-      title?: string | null; // String
+    createFixPart: { // args
+      estimateFixTime?: string | null; // String
+      houseId?: number | null; // Int
     }
-    createChatRoomMessage: { // args
-      chatRoomId?: string | null; // String
-      content?: string | null; // String
-      role?: string | null; // String
+    createHouse: { // args
+      address?: string | null; // String
+      name?: string | null; // String
+      userId?: number | null; // Int
+    }
+    createMovie: { // args
+      estimatedTime?: string | null; // String
+      fixPartId?: number | null; // Int
+      learningTime?: string | null; // String
+    }
+    createMovieSkill: { // args
+      movieId?: number | null; // Int
+      skillId?: number | null; // Int
+    }
+    createMovieTool: { // args
+      movieId?: number | null; // Int
+      toolId?: number | null; // Int
+    }
+    createPartner: { // args
+      companyAddress?: string | null; // String
+      companyName?: string | null; // String
+      companyTel?: string | null; // String
+      contactPerson?: string | null; // String
+      houseId?: number | null; // Int
+    }
+    createRoomType: { // args
+      name?: string | null; // String
+    }
+    createRoomTypeFixPart: { // args
+      fixPartId?: number | null; // Int
+      roomTypeId?: number | null; // Int
+    }
+    createSkill: { // args
+      name?: string | null; // String
+    }
+    createTool: { // args
+      name?: string | null; // String
     }
     createUser: { // args
       email?: string | null; // String
       iconUrl?: string | null; // String
+      role?: string | null; // String
       uid?: string | null; // String
       username?: string | null; // String
     }
-    createUserChatRoom: { // args
-      chatRoomId?: number | null; // Int
+    createUserSkill: { // args
+      skillId?: number | null; // Int
       userId?: number | null; // Int
     }
-    createUserVertexChatRoom: { // args
-      userId?: number | null; // Int
-      vertexChatRoomId?: number | null; // Int
-    }
-    createVertexChatRoom: { // args
-      context?: string | null; // String
-      isShered?: boolean | null; // Boolean
-      maxTokens?: number | null; // Int
-      model?: string | null; // String
-      name?: string | null; // String
-      temperature?: number | null; // Float
-      title?: string | null; // String
-      topK?: number | null; // Int
-      topP?: number | null; // Float
-    }
-    createVertexChatRoomExample: { // args
-      input?: string | null; // String
-      output?: string | null; // String
-      vertexChatRoomId?: string | null; // String
-    }
-    createVertexChatRoomMessage: { // args
-      content?: string | null; // String
-      role?: string | null; // String
-      vertexChatRoomId?: string | null; // String
-    }
-    deleteChatRoom: { // args
+    deleteFixPart: { // args
       id?: string | null; // String
     }
-    deleteChatRoomMessage: { // args
+    deleteHouse: { // args
+      id?: string | null; // String
+    }
+    deleteMovie: { // args
+      id?: string | null; // String
+    }
+    deleteMovieSkill: { // args
+      id?: string | null; // String
+    }
+    deleteMovieTool: { // args
+      id?: string | null; // String
+    }
+    deletePartner: { // args
+      id?: string | null; // String
+    }
+    deleteRoomType: { // args
+      id?: string | null; // String
+    }
+    deleteRoomTypeFixPart: { // args
+      id?: string | null; // String
+    }
+    deleteSkill: { // args
+      id?: string | null; // String
+    }
+    deleteTool: { // args
       id?: string | null; // String
     }
     deleteUser: { // args
       id?: string | null; // String
     }
-    deleteUserChatRoom: { // args
+    deleteUserSkill: { // args
       id?: string | null; // String
     }
-    deleteUserVertexChatRoom: { // args
+    updateFixPart: { // args
       id?: string | null; // String
     }
-    deleteVertexChatRoom: { // args
+    updateHouse: { // args
       id?: string | null; // String
     }
-    deleteVertexChatRoomExample: { // args
+    updateMovie: { // args
       id?: string | null; // String
     }
-    deleteVertexChatRoomMessage: { // args
+    updateMovieSkill: { // args
       id?: string | null; // String
     }
-    updateChatRoom: { // args
+    updateMovieTool: { // args
       id?: string | null; // String
-      model?: string | null; // String
-      name?: string | null; // String
-      stream?: boolean | null; // Boolean
-      title?: string | null; // String
     }
-    updateChatRoomMessage: { // args
-      chatRoomId?: number | null; // Int
-      content?: string | null; // String
+    updatePartner: { // args
       id?: string | null; // String
-      userId?: number | null; // Int
+    }
+    updateRoomType: { // args
+      id?: string | null; // String
+    }
+    updateRoomTypeFixPart: { // args
+      id?: string | null; // String
+    }
+    updateSkill: { // args
+      id?: string | null; // String
+    }
+    updateTool: { // args
+      id?: string | null; // String
     }
     updateUser: { // args
-      email?: string | null; // String
-      iconUrl?: string | null; // String
-      id?: string | null; // String
-      uid?: string | null; // String
-      username?: string | null; // String
-    }
-    updateUserChatRoom: { // args
-      chatRoomId?: number | null; // Int
       id?: string | null; // String
     }
-    updateUserVertexChatRoom: { // args
-      id?: string | null; // String
-    }
-    updateVertexChatRoom: { // args
-      id?: string | null; // String
-      title?: string | null; // String
-    }
-    updateVertexChatRoomExample: { // args
-      id?: string | null; // String
-    }
-    updateVertexChatRoomMessage: { // args
+    updateUserSkill: { // args
       id?: string | null; // String
     }
   }
   Query: {
-    chatRoomConnection: { // args
+    fixPartConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    chatRoomMessageConnection: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      chatRoomId?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
-    getChatRoom: { // args
-      id?: string | null; // String
-    }
-    getChatRoomMessages: { // args
-      chatRoomId?: string | null; // String
-    }
-    getUser: { // args
-      id?: string | null; // String
-    }
-    getUserChatRoom: { // args
-      id?: string | null; // String
-    }
-    getUserVertexChatRoom: { // args
+    getFixPart: { // args
       id: string; // String!
     }
-    getVertexChatRoom: { // args
-      id?: string | null; // String
+    getHouse: { // args
+      id: string; // String!
     }
-    getVertexChatRoomExamples: { // args
-      vertexChatRoomId?: string | null; // String
+    getMovie: { // args
+      id: string; // String!
     }
-    getVertexChatRoomMessage: { // args
-      vertexChatRoomId?: string | null; // String
+    getMovieSkill: { // args
+      id: string; // String!
+    }
+    getMovieTool: { // args
+      id: string; // String!
+    }
+    getPartner: { // args
+      id: string; // String!
+    }
+    getRoomType: { // args
+      id: string; // String!
+    }
+    getRoomTypeFixPart: { // args
+      id: string; // String!
+    }
+    getSkill: { // args
+      id: string; // String!
+    }
+    getTool: { // args
+      id: string; // String!
+    }
+    getUser: { // args
+      id: string; // String!
+    }
+    getUserSkill: { // args
+      id: string; // String!
+    }
+    houseConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    movieConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    movieSkillConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    movieToolConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
     node: { // args
       id: string; // ID!
@@ -813,11 +1063,35 @@ export interface NexusGenArgTypes {
     nodes: { // args
       ids: string[]; // [ID!]!
     }
+    partnerConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
     postTweet: { // args
       id?: string | null; // String
       text?: string | null; // String
     }
-    userChatRoomConnection: { // args
+    roomTypeConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    roomTypeFixPartConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    skillConnection: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    toolConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int
@@ -829,25 +1103,7 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    userVertexChatRoomConnection: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
-    vertexChatRoomConnection: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
-    vertexChatRoomExampleConnection: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
-    vertexChatRoomMessageConnection: { // args
+    userSkillConnection: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int
