@@ -17,7 +17,8 @@
     "start": "node dist/index.js",
     "db:dev": "npx prisma migrate dev",
     "db:deploy": "npx prisma migrate deploy",
-    "db:seed": "npx prisma db seed"
+    "db:seed": "npx prisma db seed",
+    "db:studio": "npx prisma studio"
   },
   "prisma": {
     "seed": "npx ts-node --transpile-only prisma/seed.ts"
